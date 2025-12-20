@@ -8,6 +8,7 @@ class EVModellingApp {
         this.currentBasemap = 'light';
         this.activeLayers = [];
         this.showChargers = true;  // Show chargers by default
+        this.showAnalysisLayer = true;  // Show analysis layer by default
 
         this.init();
     }
@@ -86,6 +87,19 @@ class EVModellingApp {
             chargerToggle.addEventListener('change', (e) => {
                 this.showChargers = e.target.checked;
                 this.updateChargerLayer();
+            });
+        }
+
+        // Analysis layer toggle
+        const analysisLayerToggle = document.getElementById('analysis-layer-toggle');
+        if (analysisLayerToggle) {
+            analysisLayerToggle.addEventListener('change', (e) => {
+                this.showAnalysisLayer = e.target.checked;
+                const stageToggles = document.getElementById('stage-toggles');
+                if (stageToggles) {
+                    stageToggles.classList.toggle('disabled', !this.showAnalysisLayer);
+                }
+                this.updateLayers();
             });
         }
 
@@ -210,6 +224,11 @@ class EVModellingApp {
             LAYERS.removeLayer(this.map, region, stage);
         });
         this.activeLayers = [];
+
+        // Only add layers if analysis layer is enabled
+        if (!this.showAnalysisLayer) {
+            return;
+        }
 
         // Determine which regions to show
         const regionsToShow = this.currentRegion === 'all'

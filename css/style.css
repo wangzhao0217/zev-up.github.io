@@ -127,6 +127,15 @@ body {
     border: 2px solid transparent;
 }
 
+.toggle-label.compact {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+}
+
+.layer-toggle-header {
+    margin-bottom: 6px;
+}
+
 .toggle-label:hover {
     background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
     border-color: #d0d5ff;
@@ -141,6 +150,11 @@ body {
 
 .toggle-text {
     color: #1a1a2e;
+}
+
+#stage-toggles.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Radio Buttons */
