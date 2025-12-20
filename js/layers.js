@@ -10,15 +10,16 @@ const LAYERS = {
 
     /**
      * Get source layer name (matches the layer name in PMTiles)
+     * Layer name was set to {region}_{stage} during tippecanoe conversion
      */
-    getSourceLayer(stage) {
-        return stage;
+    getSourceLayer(region, stage) {
+        return `${region}_${stage}`;
     },
 
     /**
      * Create polygon fill layer style
      */
-    createPolygonFillStyle(sourceId, layerId, stage) {
+    createPolygonFillStyle(sourceId, layerId, region, stage) {
         const stageConfig = CONFIG.stages.find(s => s.id === stage);
         const colorProperty = stageConfig.colorProperty;
         const colorScale = CONFIG.colorScales[stageConfig.colorScale];
@@ -46,7 +47,7 @@ const LAYERS = {
             id: layerId,
             type: 'fill',
             source: sourceId,
-            'source-layer': this.getSourceLayer(stage),
+            'source-layer': this.getSourceLayer(region, stage),
             paint: {
                 'fill-color': fillColor,
                 'fill-opacity': 0.7
@@ -57,12 +58,12 @@ const LAYERS = {
     /**
      * Create polygon outline layer style
      */
-    createPolygonOutlineStyle(sourceId, layerId, stage) {
+    createPolygonOutlineStyle(sourceId, layerId, region, stage) {
         return {
             id: layerId + '-outline',
             type: 'line',
             source: sourceId,
-            'source-layer': this.getSourceLayer(stage),
+            'source-layer': this.getSourceLayer(region, stage),
             paint: {
                 'line-color': '#ffffff',
                 'line-width': 0.5,
@@ -74,7 +75,7 @@ const LAYERS = {
     /**
      * Create line layer style
      */
-    createLineStyle(sourceId, layerId, stage) {
+    createLineStyle(sourceId, layerId, region, stage) {
         const stageConfig = CONFIG.stages.find(s => s.id === stage);
         const colorProperty = stageConfig.colorProperty;
         const colorScale = CONFIG.colorScales[stageConfig.colorScale];
@@ -96,7 +97,7 @@ const LAYERS = {
             id: layerId,
             type: 'line',
             source: sourceId,
-            'source-layer': this.getSourceLayer(stage),
+            'source-layer': this.getSourceLayer(region, stage),
             paint: {
                 'line-color': lineColor,
                 'line-width': [
@@ -130,12 +131,12 @@ const LAYERS = {
         // Add layer based on type
         if (stageConfig.type === 'polygon') {
             if (!map.getLayer(layerId)) {
-                map.addLayer(this.createPolygonFillStyle(sourceId, layerId, stage));
-                map.addLayer(this.createPolygonOutlineStyle(sourceId, layerId, stage));
+                map.addLayer(this.createPolygonFillStyle(sourceId, layerId, region, stage));
+                map.addLayer(this.createPolygonOutlineStyle(sourceId, layerId, region, stage));
             }
         } else if (stageConfig.type === 'line') {
             if (!map.getLayer(layerId)) {
-                map.addLayer(this.createLineStyle(sourceId, layerId, stage));
+                map.addLayer(this.createLineStyle(sourceId, layerId, region, stage));
             }
         }
 
