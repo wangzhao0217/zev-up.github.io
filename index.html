@@ -47,15 +47,23 @@
             <div class="panel-section">
                 <h3>Region</h3>
                 <select id="region-select">
-                    <option value="all">All Regions</option>
+                    <option value="all" selected>All Regions</option>
                     <option value="hitrans">HITRANS</option>
                     <option value="nestrans">Nestrans</option>
                     <option value="sestran">SESTRAN</option>
                     <option value="spt">SPT</option>
                     <option value="swestrans">SWESTRANS</option>
                     <option value="tactran">Tactran</option>
-                    <option value="zettrans" selected>ZetTrans</option>
+                    <option value="zettrans">ZetTrans</option>
                 </select>
+            </div>
+
+            <div class="panel-section">
+                <h3>Overlay Layers</h3>
+                <label class="toggle-label">
+                    <input type="checkbox" id="charger-toggle" checked>
+                    <span class="toggle-text">Show Charging Stations</span>
+                </label>
             </div>
 
             <div class="panel-section">

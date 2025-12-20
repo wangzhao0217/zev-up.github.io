@@ -2,10 +2,12 @@
 
 const CONFIG = {
     // PMTiles base URL (using jsDelivr CDN for proper range request support)
-    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@main/pmtiles',
+    // GitHub repo stores web assets under /web, so include that folder in CDN path
+    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@main/web/pmtiles',
 
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
+        'chargers',
         'hitrans_trip_purpose',
         'zettrans_adoption_propensity',
         'zettrans_charging_network',
@@ -46,18 +48,18 @@ const CONFIG = {
             name: 'Adoption Propensity',
             type: 'polygon',
             description: 'Demographic-based EV adoption likelihood',
-            colorProperty: 'adoption_propensity_score',
+            colorProperty: 'final_adoption_propensity',
             colorScale: 'viridis',
-            legendTitle: 'Adoption Score'
+            legendTitle: 'Final Adoption Propensity'
         },
         {
             id: 'charging_network',
             name: 'Charging Network',
             type: 'polygon',
             description: 'Charging infrastructure accessibility',
-            colorProperty: 'accessibility_score',
-            colorScale: 'plasma',
-            legendTitle: 'Accessibility Score'
+            colorProperty: 'charging_accessibility_category',
+            colorScale: 'charging_category',
+            legendTitle: 'Charging Accessibility'
         },
         {
             id: 'trip_purpose',
@@ -82,18 +84,18 @@ const CONFIG = {
             name: 'Conversion Potential',
             type: 'polygon',
             description: 'Trip conversion potential',
-            colorProperty: 'conversion_potential',
+            colorProperty: 'purpose_weight',
             colorScale: 'viridis',
-            legendTitle: 'Conversion Potential'
+            legendTitle: 'Purpose Weight'
         },
         {
             id: 'ev_assignment_replaceable_only',
             name: 'EV Assignment',
             type: 'polygon',
             description: '2-seater vs 4-seater assignment',
-            colorProperty: 'ev_type',
+            colorProperty: 'ev_type_assignment',
             colorScale: 'ev_type',
-            legendTitle: 'EV Type'
+            legendTitle: 'EV Type Assignment'
         },
         {
             id: 'integrated_conversion_with_ev_types',
@@ -129,10 +131,19 @@ const CONFIG = {
             'infeasible': '#e74c3c',
             'unknown': '#95a5a6'
         },
+        charging_category: {
+            'Excellent': '#2ecc71',
+            'Good': '#27ae60',
+            'Moderate': '#f39c12',
+            'Limited': '#e67e22',
+            'Poor': '#e74c3c',
+            'None': '#95a5a6'
+        },
         ev_type: {
             '2-seater': '#3498db',
             '4-seater': '#9b59b6',
             'either': '#1abc9c',
+            'not_assigned': '#95a5a6',
             'not_applicable': '#95a5a6'
         },
         categorical: {

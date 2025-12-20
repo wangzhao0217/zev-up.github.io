@@ -3,10 +3,11 @@
 class EVModellingApp {
     constructor() {
         this.map = null;
-        this.currentRegion = 'zettrans';  // Default to ZetTrans (only complete region)
+        this.currentRegion = 'all';  // Default to all regions
         this.currentStage = 'adoption_propensity';
         this.currentBasemap = 'light';
         this.activeLayers = [];
+        this.showChargers = true;  // Show chargers by default
 
         this.init();
     }
@@ -42,6 +43,7 @@ class EVModellingApp {
         this.map.on('load', () => {
             this.setupEventListeners();
             this.updateLayers();
+            this.updateChargerLayer();
             this.updateLegend();
         });
 
@@ -78,6 +80,15 @@ class EVModellingApp {
             });
         });
 
+        // Charger toggle
+        const chargerToggle = document.getElementById('charger-toggle');
+        if (chargerToggle) {
+            chargerToggle.addEventListener('change', (e) => {
+                this.showChargers = e.target.checked;
+                this.updateChargerLayer();
+            });
+        }
+
         // Close info panel
         const closeInfo = document.getElementById('close-info');
         closeInfo.addEventListener('click', () => {
@@ -104,7 +115,87 @@ class EVModellingApp {
             this.map.setCenter(center);
             this.map.setZoom(zoom);
             this.updateLayers();
+            this.updateChargerLayer();
         });
+    }
+
+    /**
+     * Update charger layer visibility
+     */
+    updateChargerLayer() {
+        const sourceId = 'chargers-source';
+        const layerId = 'chargers-layer';
+
+        if (this.showChargers) {
+            // Add source if not exists
+            if (!this.map.getSource(sourceId)) {
+                this.map.addSource(sourceId, {
+                    type: 'vector',
+                    url: `pmtiles://${CONFIG.pmtilesBaseUrl}/chargers.pmtiles`
+                });
+            }
+
+            // Add layer if not exists
+            if (!this.map.getLayer(layerId)) {
+                this.map.addLayer({
+                    id: layerId,
+                    type: 'circle',
+                    source: sourceId,
+                    'source-layer': 'chargers',
+                    paint: {
+                        'circle-radius': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            6, 3,
+                            10, 5,
+                            14, 8
+                        ],
+                        'circle-color': '#22c55e',
+                        'circle-stroke-color': '#ffffff',
+                        'circle-stroke-width': 2,
+                        'circle-opacity': 0.9
+                    }
+                });
+
+                // Add click handler for chargers
+                this.map.on('click', layerId, (e) => {
+                    if (e.features.length > 0) {
+                        const props = e.features[0].properties;
+                        let html = '';
+                        if (props.title) {
+                            html += `<div class="info-row"><span class="info-label">Name</span><span class="info-value">${props.title}</span></div>`;
+                        }
+                        if (props.town) {
+                            html += `<div class="info-row"><span class="info-label">Town</span><span class="info-value">${props.town}</span></div>`;
+                        }
+                        if (props.postcode) {
+                            html += `<div class="info-row"><span class="info-label">Postcode</span><span class="info-value">${props.postcode}</span></div>`;
+                        }
+                        if (props.number_of_points) {
+                            html += `<div class="info-row"><span class="info-label">Charging Points</span><span class="info-value">${props.number_of_points}</span></div>`;
+                        }
+                        document.getElementById('info-content').innerHTML = html;
+                        document.getElementById('info-panel').classList.remove('hidden');
+                    }
+                });
+
+                this.map.on('mouseenter', layerId, () => {
+                    this.map.getCanvas().style.cursor = 'pointer';
+                });
+                this.map.on('mouseleave', layerId, () => {
+                    this.map.getCanvas().style.cursor = '';
+                });
+            }
+        } else {
+            // Remove layer and source
+            if (this.map.getLayer(layerId)) {
+                this.map.removeLayer(layerId);
+            }
+            if (this.map.getSource(sourceId)) {
+                this.map.removeSource(sourceId);
+            }
+        }
     }
 
     /**

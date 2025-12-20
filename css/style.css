@@ -113,6 +113,36 @@ body {
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
 }
 
+/* Toggle Label */
+.toggle-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.toggle-label:hover {
+    background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
+    border-color: #d0d5ff;
+}
+
+.toggle-label input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #22c55e;
+    width: 18px;
+    height: 18px;
+}
+
+.toggle-text {
+    color: #1a1a2e;
+}
+
 /* Radio Buttons */
 #stage-toggles label {
     display: flex;
