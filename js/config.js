@@ -2,8 +2,8 @@
 
 const CONFIG = {
     // PMTiles base URL (using jsDelivr CDN for proper range request support)
-    // GitHub repo stores web assets under /web, so include that folder in CDN path
-    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@main/web/pmtiles',
+    // Using commit hash to bust CDN cache
+    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@d72327f/pmtiles',
 
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
