@@ -182,11 +182,33 @@ body {
     accent-color: white;
 }
 
-/* Legend */
-#legend {
-    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+/* Legend - Fixed at bottom left */
+#legend-container {
+    position: absolute;
+    bottom: 30px;
+    left: 12px;
+    width: 200px;
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
     padding: 14px;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+#legend-container h3 {
+    font-size: 0.75rem;
+    color: #667eea;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+}
+
+#legend {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+    border-radius: 10px;
+    padding: 12px;
     border: 2px solid #e8ebff;
 }
 
@@ -302,10 +324,16 @@ body {
     #control-panel {
         width: calc(100% - 24px);
         top: auto;
+        bottom: 180px;
+        left: 12px;
+        max-height: 35vh;
+        border-radius: 20px 20px 12px 12px;
+    }
+
+    #legend-container {
+        width: calc(100% - 24px);
         bottom: 12px;
         left: 12px;
-        max-height: 45vh;
-        border-radius: 20px 20px 12px 12px;
     }
 
     #info-panel {
