@@ -87,8 +87,10 @@ class EVModellingApp {
     updateLayers() {
         // Remove existing layers
         this.activeLayers.forEach(layerId => {
-            const [region, stage] = layerId.split('-');
-            LAYERS.removeLayer(this.map, region, stage.replace(/-/g, '_'));
+            const parts = layerId.split('-');
+            const region = parts[0];
+            const stage = parts.slice(1).join('_');
+            LAYERS.removeLayer(this.map, region, stage);
         });
         this.activeLayers = [];
 
@@ -97,13 +99,16 @@ class EVModellingApp {
             ? CONFIG.regions.map(r => r.id)
             : [this.currentRegion];
 
-        // Add layers for each region
+        // Add layers for each region (only if file exists)
         regionsToShow.forEach(region => {
-            try {
-                const layerId = LAYERS.addLayer(this.map, region, this.currentStage);
-                this.activeLayers.push(layerId);
-            } catch (error) {
-                console.warn(`Failed to load layer for ${region}/${this.currentStage}:`, error);
+            const fileKey = `${region}_${this.currentStage}`;
+            if (CONFIG.availableFiles.includes(fileKey)) {
+                try {
+                    const layerId = LAYERS.addLayer(this.map, region, this.currentStage);
+                    this.activeLayers.push(layerId);
+                } catch (error) {
+                    console.warn(`Failed to load layer for ${region}/${this.currentStage}:`, error);
+                }
             }
         });
 

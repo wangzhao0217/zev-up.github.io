@@ -4,6 +4,18 @@ const CONFIG = {
     // PMTiles base URL (served from same origin for CORS)
     pmtilesBaseUrl: 'pmtiles',
 
+    // Available PMTiles files (region_stage combinations that exist)
+    availableFiles: [
+        'hitrans_trip_purpose',
+        'zettrans_adoption_propensity',
+        'zettrans_charging_network',
+        'zettrans_conversion_potential',
+        'zettrans_ev_assignment_replaceable_only',
+        'zettrans_integrated_conversion_with_ev_types',
+        'zettrans_range_feasibility',
+        'zettrans_trip_purpose'
+    ],
+
     // Map settings
     map: {
         center: [-4.0, 56.5],  // Scotland center
