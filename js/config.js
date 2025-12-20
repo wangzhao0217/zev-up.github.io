@@ -1,8 +1,8 @@
 // Configuration for EV Modelling Web Visualization
 
 const CONFIG = {
-    // PMTiles base URL (served from same origin for CORS)
-    pmtilesBaseUrl: 'pmtiles',
+    // PMTiles base URL (using jsDelivr CDN for proper range request support)
+    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@main/pmtiles',
 
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
