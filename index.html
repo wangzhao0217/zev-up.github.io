@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frugal EV Adoption Feasibility - Scotland</title>
+
+    <!-- MapLibre GL JS -->
+    <link href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
+
+    <!-- PMTiles Protocol -->
+    <script src="https://unpkg.com/pmtiles@3.0.6/dist/pmtiles.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header id="header">
+            <h1>Frugal EV Adoption Feasibility</h1>
+            <p class="subtitle">Scotland Regional Analysis</p>
+        </header>
+
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- Control Panel -->
+        <div id="control-panel">
+            <div class="panel-section">
+                <h3>Region</h3>
+                <select id="region-select">
+                    <option value="all">All Regions</option>
+                    <option value="hitrans">HITRANS</option>
+                    <option value="nestrans">Nestrans</option>
+                    <option value="sestran">SESTRAN</option>
+                    <option value="spt">SPT</option>
+                    <option value="swestrans">SWESTRANS</option>
+                    <option value="tactran">Tactran</option>
+                    <option value="zettrans">ZetTrans</option>
+                </select>
+            </div>
+
+            <div class="panel-section">
+                <h3>Analysis Stage</h3>
+                <div id="stage-toggles">
+                    <label>
+                        <input type="radio" name="stage" value="adoption_propensity" checked>
+                        Adoption Propensity
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="charging_network">
+                        Charging Network
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="trip_purpose">
+                        Trip Purpose
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="range_feasibility">
+                        Range Feasibility
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="conversion_potential">
+                        Conversion Potential
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="ev_assignment_replaceable_only">
+                        EV Assignment
+                    </label>
+                    <label>
+                        <input type="radio" name="stage" value="integrated_conversion_with_ev_types">
+                        Integrated Analysis
+                    </label>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>Legend</h3>
+                <div id="legend"></div>
+            </div>
+        </div>
+
+        <!-- Info Panel (for feature details) -->
+        <div id="info-panel" class="hidden">
+            <button id="close-info">&times;</button>
+            <h3>Feature Details</h3>
+            <div id="info-content"></div>
+        </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/layers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

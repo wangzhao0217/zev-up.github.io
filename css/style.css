@@ -1,0 +1,264 @@
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+#header {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+    padding: 12px 20px;
+    border-bottom: 1px solid #0f3460;
+    z-index: 100;
+}
+
+#header h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #e94560;
+}
+
+#header .subtitle {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* Map */
+#map {
+    flex: 1;
+    position: relative;
+}
+
+/* Control Panel */
+#control-panel {
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    width: 260px;
+    background: rgba(26, 26, 46, 0.95);
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 10;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    border: 1px solid #0f3460;
+}
+
+.panel-section {
+    margin-bottom: 20px;
+}
+
+.panel-section:last-child {
+    margin-bottom: 0;
+}
+
+.panel-section h3 {
+    font-size: 0.9rem;
+    color: #e94560;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Select */
+#region-select {
+    width: 100%;
+    padding: 8px 12px;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    color: #eee;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+#region-select:focus {
+    outline: none;
+    border-color: #e94560;
+}
+
+/* Radio Buttons */
+#stage-toggles label {
+    display: block;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    background: #16213e;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+#stage-toggles label:hover {
+    background: #1f2b4a;
+}
+
+#stage-toggles input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #e94560;
+}
+
+/* Legend */
+#legend {
+    background: #16213e;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+}
+
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 14px;
+    border-radius: 2px;
+    margin-right: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Info Panel */
+#info-panel {
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    width: 300px;
+    background: rgba(26, 26, 46, 0.95);
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 10;
+    border: 1px solid #0f3460;
+}
+
+#info-panel.hidden {
+    display: none;
+}
+
+#close-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#close-info:hover {
+    color: #e94560;
+}
+
+#info-panel h3 {
+    font-size: 0.9rem;
+    color: #e94560;
+    margin-bottom: 10px;
+}
+
+#info-content {
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+#info-content .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #0f3460;
+}
+
+#info-content .info-label {
+    color: #888;
+}
+
+#info-content .info-value {
+    color: #eee;
+    font-weight: 500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    #control-panel {
+        width: calc(100% - 20px);
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+        max-height: 40vh;
+    }
+
+    #info-panel {
+        width: calc(100% - 20px);
+        top: 80px;
+        right: 10px;
+        left: 10px;
+    }
+
+    #header h1 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Loading State */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 46, 0.9);
+    padding: 20px 30px;
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e94560;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Gradient Legend */
+.legend-gradient {
+    height: 14px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #888;
+}
