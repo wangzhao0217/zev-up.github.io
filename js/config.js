@@ -237,7 +237,7 @@ const CONFIG = {
     },
 
     // Default basemap
-    defaultBasemap: 'dark',
+    defaultBasemap: 'light',
 
     // Basemap style (legacy - use basemaps instead)
     basemapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'

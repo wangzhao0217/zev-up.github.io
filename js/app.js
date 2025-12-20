@@ -5,7 +5,7 @@ class EVModellingApp {
         this.map = null;
         this.currentRegion = 'zettrans';  // Default to ZetTrans (only complete region)
         this.currentStage = 'adoption_propensity';
-        this.currentBasemap = 'dark';
+        this.currentBasemap = 'light';
         this.activeLayers = [];
 
         this.init();
