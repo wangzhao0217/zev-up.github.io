@@ -1,8 +1,8 @@
 // Configuration for EV Modelling Web Visualization
 
 const CONFIG = {
-    // PMTiles base URL (GitHub Releases)
-    pmtilesBaseUrl: 'https://github.com/wangzhao0217/zev-up.github.io/releases/download/v1.0.0',
+    // PMTiles base URL (served from same origin for CORS)
+    pmtilesBaseUrl: 'pmtiles',
 
     // Map settings
     map: {
