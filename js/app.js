@@ -5,6 +5,7 @@ class EVModellingApp {
         this.map = null;
         this.currentRegion = 'zettrans';  // Default to ZetTrans (only complete region)
         this.currentStage = 'adoption_propensity';
+        this.currentBasemap = 'dark';
         this.activeLayers = [];
 
         this.init();
@@ -18,10 +19,14 @@ class EVModellingApp {
         const protocol = new pmtiles.Protocol();
         maplibregl.addProtocol('pmtiles', protocol.tile);
 
+        // Get initial basemap style
+        const basemapConfig = CONFIG.basemaps[this.currentBasemap];
+        const initialStyle = basemapConfig.style;
+
         // Initialize map
         this.map = new maplibregl.Map({
             container: 'map',
-            style: CONFIG.basemapStyle,
+            style: initialStyle,
             center: CONFIG.map.center,
             zoom: CONFIG.map.zoom,
             minZoom: CONFIG.map.minZoom,
@@ -42,20 +47,19 @@ class EVModellingApp {
 
         // Setup click handler for feature info
         this.map.on('click', (e) => this.handleMapClick(e));
-
-        // Change cursor on hover
-        this.map.on('mouseenter', this.activeLayers, () => {
-            this.map.getCanvas().style.cursor = 'pointer';
-        });
-        this.map.on('mouseleave', this.activeLayers, () => {
-            this.map.getCanvas().style.cursor = '';
-        });
     }
 
     /**
      * Setup UI event listeners
      */
     setupEventListeners() {
+        // Basemap selector
+        const basemapSelect = document.getElementById('basemap-select');
+        basemapSelect.addEventListener('change', (e) => {
+            this.currentBasemap = e.target.value;
+            this.changeBasemap();
+        });
+
         // Region selector
         const regionSelect = document.getElementById('region-select');
         regionSelect.addEventListener('change', (e) => {
@@ -78,6 +82,28 @@ class EVModellingApp {
         const closeInfo = document.getElementById('close-info');
         closeInfo.addEventListener('click', () => {
             document.getElementById('info-panel').classList.add('hidden');
+        });
+    }
+
+    /**
+     * Change the basemap style
+     */
+    changeBasemap() {
+        const basemapConfig = CONFIG.basemaps[this.currentBasemap];
+        const newStyle = basemapConfig.style;
+
+        // Store current center and zoom
+        const center = this.map.getCenter();
+        const zoom = this.map.getZoom();
+
+        // Set new style
+        this.map.setStyle(newStyle);
+
+        // Re-add layers after style loads
+        this.map.once('style.load', () => {
+            this.map.setCenter(center);
+            this.map.setZoom(zoom);
+            this.updateLayers();
         });
     }
 

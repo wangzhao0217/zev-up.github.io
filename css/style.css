@@ -75,7 +75,8 @@ body {
 }
 
 /* Select */
-#region-select {
+#region-select,
+#basemap-select {
     width: 100%;
     padding: 8px 12px;
     background: #16213e;
@@ -86,7 +87,8 @@ body {
     cursor: pointer;
 }
 
-#region-select:focus {
+#region-select:focus,
+#basemap-select:focus {
     outline: none;
     border-color: #e94560;
 }

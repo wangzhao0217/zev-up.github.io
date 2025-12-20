@@ -147,6 +147,98 @@ const CONFIG = {
         }
     },
 
-    // Basemap style
+    // Basemap styles
+    basemaps: {
+        'dark': {
+            name: 'Dark',
+            style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
+        },
+        'light': {
+            name: 'Light',
+            style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
+        },
+        'osm': {
+            name: 'OpenStreetMap',
+            style: {
+                version: 8,
+                sources: {
+                    'osm': {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '© OpenStreetMap contributors'
+                    }
+                },
+                layers: [{
+                    id: 'osm-tiles',
+                    type: 'raster',
+                    source: 'osm',
+                    minzoom: 0,
+                    maxzoom: 19
+                }]
+            }
+        },
+        'satellite': {
+            name: 'Satellite',
+            style: {
+                version: 8,
+                sources: {
+                    'satellite': {
+                        type: 'raster',
+                        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+                        tileSize: 256,
+                        attribution: '© Esri'
+                    }
+                },
+                layers: [{
+                    id: 'satellite-tiles',
+                    type: 'raster',
+                    source: 'satellite',
+                    minzoom: 0,
+                    maxzoom: 19
+                }]
+            }
+        },
+        'satellite-streets': {
+            name: 'Satellite + Roads',
+            style: {
+                version: 8,
+                sources: {
+                    'satellite': {
+                        type: 'raster',
+                        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+                        tileSize: 256,
+                        attribution: '© Esri'
+                    },
+                    'carto-labels': {
+                        type: 'raster',
+                        tiles: ['https://a.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png'],
+                        tileSize: 256
+                    }
+                },
+                layers: [
+                    {
+                        id: 'satellite-tiles',
+                        type: 'raster',
+                        source: 'satellite',
+                        minzoom: 0,
+                        maxzoom: 19
+                    },
+                    {
+                        id: 'road-labels',
+                        type: 'raster',
+                        source: 'carto-labels',
+                        minzoom: 0,
+                        maxzoom: 19
+                    }
+                ]
+            }
+        }
+    },
+
+    // Default basemap
+    defaultBasemap: 'dark',
+
+    // Basemap style (legacy - use basemaps instead)
     basemapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
 };
