@@ -3,7 +3,7 @@
 const CONFIG = {
     // PMTiles base URL (using jsDelivr CDN for proper range request support)
     // Using commit hash to bust CDN cache
-    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@47bd936/pmtiles',
+    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@2bd3597/pmtiles',
 
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
