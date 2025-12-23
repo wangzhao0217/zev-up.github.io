@@ -200,35 +200,33 @@ const CONFIG = {
         ],
         feasibility: {
             'feasible': '#2ecc71',
-            'one_way_only': '#f39c12',
-            'constrained': '#e67e22',
-            'infeasible': '#e74c3c',
-            'unknown': '#95a5a6'
+            'constrained': '#f39c12',
+            'infeasible': '#e74c3c'
         },
         charging_category: {
-            'Excellent': '#2ecc71',
-            'Good': '#27ae60',
-            'Moderate': '#f39c12',
-            'Limited': '#e67e22',
-            'Poor': '#e74c3c',
-            'None': '#95a5a6'
+            'excellent': '#2ecc71',
+            'good': '#27ae60',
+            'fair': '#f39c12',
+            'poor': '#e74c3c'
         },
         ev_type: {
             '2-seater': '#3498db',
             '4-seater': '#9b59b6',
-            'either': '#1abc9c',
-            'not_assigned': '#95a5a6',
-            'not_applicable': '#95a5a6'
+            'mixed': '#1abc9c'
         },
         categorical: {
             'Commuting': '#e74c3c',
+            'Business': '#c0392b',
             'Education': '#3498db',
-            'Shopping': '#2ecc71',
-            'Personal business': '#9b59b6',
+            'shopping': '#2ecc71',
+            'Other personal business': '#9b59b6',
             'Escort': '#f39c12',
-            'Visiting': '#1abc9c',
-            'Leisure': '#e91e63',
-            'Other': '#95a5a6'
+            'Visiting friends or relatives': '#1abc9c',
+            'Holiday/daytrip': '#e91e63',
+            'Sport/Entertainment': '#00bcd4',
+            'Eating/Drinking': '#ff9800',
+            'Visit Hospital or other health': '#607d8b',
+            'Other Journey': '#95a5a6'
         }
     },
 
