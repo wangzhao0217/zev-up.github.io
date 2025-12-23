@@ -332,9 +332,9 @@ const LAYERS = {
             let maxLabel = '1';
 
             if (overlayId === 'ev_distribution') {
-                minLabel = '0%';
-                midLabel = '5%';
-                maxLabel = '10%+';
+                minLabel = '0';
+                midLabel = '3000';
+                maxLabel = '7000+';
             } else if (overlayId === 'car_availability') {
                 minLabel = '0%';
                 midLabel = '50%';

@@ -84,10 +84,10 @@ const CONFIG = {
             id: 'ev_distribution',
             name: 'EV Distribution',
             type: 'polygon',
-            description: 'Current EV registrations by postcode area',
-            colorProperty: 'bev_share',
-            colorScale: 'plasma',
-            legendTitle: 'BEV Share (%)',
+            description: 'BEV count by postcode area',
+            colorProperty: 'bev_count',
+            colorScale: 'bev_count',
+            legendTitle: 'BEV Count',
             sourceLayer: 'ev_distribution'
         }
     ],
@@ -197,6 +197,13 @@ const CONFIG = {
             [0.5, '#cc4778'],
             [0.75, '#f89540'],
             [1.0, '#f0f921']
+        ],
+        bev_count: [
+            [0, '#f7fbff'],
+            [500, '#c6dbef'],
+            [1500, '#6baed6'],
+            [3000, '#2171b5'],
+            [7000, '#08306b']
         ],
         feasibility: {
             'feasible': '#2ecc71',
