@@ -442,3 +442,22 @@ body {
     padding: 4px 8px !important;
     font-size: 0.7rem !important;
 }
+
+/* Legend divider for multiple legends */
+.legend-divider {
+    border: none;
+    border-top: 1px solid #e8ebff;
+    margin: 12px 0;
+}
+
+.legend-empty {
+    font-size: 0.8rem;
+    color: #8a8aaa;
+    text-align: center;
+    padding: 8px;
+}
+
+/* Overlay toggle spacing */
+.panel-section .toggle-label + .toggle-label {
+    margin-top: 6px;
+}

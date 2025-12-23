@@ -9,6 +9,8 @@ class EVModellingApp {
         this.activeLayers = [];
         this.showChargers = true;  // Show chargers by default
         this.showAnalysisLayer = true;  // Show analysis layer by default
+        this.showCarAvailability = false;  // Car availability overlay
+        this.showEvDistribution = false;  // EV distribution overlay
 
         this.init();
     }
@@ -45,6 +47,7 @@ class EVModellingApp {
             this.setupEventListeners();
             this.updateLayers();
             this.updateChargerLayer();
+            this.updateOverlayLayers();
             this.updateLegend();
         });
 
@@ -90,6 +93,26 @@ class EVModellingApp {
             });
         }
 
+        // Car availability toggle
+        const carAvailabilityToggle = document.getElementById('car-availability-toggle');
+        if (carAvailabilityToggle) {
+            carAvailabilityToggle.addEventListener('change', (e) => {
+                this.showCarAvailability = e.target.checked;
+                this.updateOverlayLayers();
+                this.updateLegend();
+            });
+        }
+
+        // EV distribution toggle
+        const evDistributionToggle = document.getElementById('ev-distribution-toggle');
+        if (evDistributionToggle) {
+            evDistributionToggle.addEventListener('change', (e) => {
+                this.showEvDistribution = e.target.checked;
+                this.updateOverlayLayers();
+                this.updateLegend();
+            });
+        }
+
         // Analysis layer toggle
         const analysisLayerToggle = document.getElementById('analysis-layer-toggle');
         if (analysisLayerToggle) {
@@ -130,7 +153,27 @@ class EVModellingApp {
             this.map.setZoom(zoom);
             this.updateLayers();
             this.updateChargerLayer();
+            this.updateOverlayLayers();
         });
+    }
+
+    /**
+     * Update overlay layers (car availability, EV distribution)
+     */
+    updateOverlayLayers() {
+        // Car availability layer
+        if (this.showCarAvailability) {
+            LAYERS.addOverlayLayer(this.map, 'car_availability');
+        } else {
+            LAYERS.removeOverlayLayer(this.map, 'car_availability');
+        }
+
+        // EV distribution layer
+        if (this.showEvDistribution) {
+            LAYERS.addOverlayLayer(this.map, 'ev_distribution');
+        } else {
+            LAYERS.removeOverlayLayer(this.map, 'ev_distribution');
+        }
     }
 
     /**
@@ -363,11 +406,29 @@ class EVModellingApp {
     }
 
     /**
-     * Update legend based on current stage
+     * Update legend based on current stage and active overlays
      */
     updateLegend() {
         const legendContainer = document.getElementById('legend');
-        legendContainer.innerHTML = LAYERS.generateLegend(this.currentStage);
+        let html = '';
+
+        // Add analysis layer legend if enabled
+        if (this.showAnalysisLayer) {
+            html += LAYERS.generateLegend(this.currentStage);
+        }
+
+        // Add overlay legends
+        if (this.showCarAvailability) {
+            if (html) html += '<hr class="legend-divider">';
+            html += LAYERS.generateOverlayLegend('car_availability');
+        }
+
+        if (this.showEvDistribution) {
+            if (html) html += '<hr class="legend-divider">';
+            html += LAYERS.generateOverlayLegend('ev_distribution');
+        }
+
+        legendContainer.innerHTML = html || '<div class="legend-empty">No layers active</div>';
     }
 
     /**

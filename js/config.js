@@ -8,12 +8,17 @@ const CONFIG = {
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
         'chargers',
+        'car_availability',
+        'ev_distribution',
+        // HITRANS
         'hitrans_adoption_propensity',
         'hitrans_charging_network',
         'hitrans_conversion_potential',
         'hitrans_ev_assignment_replaceable_only',
         'hitrans_integrated_conversion_with_ev_types',
         'hitrans_range_feasibility',
+        'hitrans_trip_purpose',
+        // Nestrans
         'nestrans_adoption_propensity',
         'nestrans_charging_network',
         'nestrans_conversion_potential',
@@ -21,17 +26,23 @@ const CONFIG = {
         'nestrans_integrated_conversion_with_ev_types',
         'nestrans_range_feasibility',
         'nestrans_trip_purpose',
+        // SESTRAN
         'sestran_adoption_propensity',
         'sestran_charging_network',
         'sestran_conversion_potential',
         'sestran_ev_assignment_replaceable_only',
         'sestran_integrated_conversion_with_ev_types',
+        'sestran_range_feasibility',
+        'sestran_trip_purpose',
+        // SPT
         'spt_adoption_propensity',
         'spt_charging_network',
         'spt_conversion_potential',
         'spt_ev_assignment_replaceable_only',
         'spt_integrated_conversion_with_ev_types',
         'spt_range_feasibility',
+        'spt_trip_purpose',
+        // SWESTRANS
         'swestrans_adoption_propensity',
         'swestrans_charging_network',
         'swestrans_conversion_potential',
@@ -39,6 +50,7 @@ const CONFIG = {
         'swestrans_integrated_conversion_with_ev_types',
         'swestrans_range_feasibility',
         'swestrans_trip_purpose',
+        // Tactran
         'tactran_adoption_propensity',
         'tactran_charging_network',
         'tactran_conversion_potential',
@@ -46,6 +58,7 @@ const CONFIG = {
         'tactran_integrated_conversion_with_ev_types',
         'tactran_range_feasibility',
         'tactran_trip_purpose',
+        // ZetTrans
         'zettrans_adoption_propensity',
         'zettrans_charging_network',
         'zettrans_conversion_potential',
@@ -53,6 +66,30 @@ const CONFIG = {
         'zettrans_integrated_conversion_with_ev_types',
         'zettrans_range_feasibility',
         'zettrans_trip_purpose'
+    ],
+
+    // Overlay layers (Scotland-wide, not region-specific)
+    overlayLayers: [
+        {
+            id: 'car_availability',
+            name: 'Car/Van Availability',
+            type: 'polygon',
+            description: 'Household car ownership from 2011 Census',
+            colorProperty: 'car_ownership_rate',
+            colorScale: 'viridis',
+            legendTitle: 'Car Ownership Rate',
+            sourceLayer: 'car_availability'
+        },
+        {
+            id: 'ev_distribution',
+            name: 'EV Distribution',
+            type: 'polygon',
+            description: 'Current EV registrations by postcode area',
+            colorProperty: 'bev_share',
+            colorScale: 'plasma',
+            legendTitle: 'BEV Share (%)',
+            sourceLayer: 'ev_distribution'
+        }
     ],
 
     // Map settings
