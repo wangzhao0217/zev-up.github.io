@@ -18,19 +18,94 @@ DATA_DIR <- file.path(BASE_DIR, "data")
 dir.create(PMTILES_DIR, recursive = TRUE, showWarnings = FALSE)
 
 REGIONS <- c(
-  "HITRANS", "Nestrans", "SESTRAN", "SPT", "SWESTRANS", "Tactran", "ZetTrans"
+  "HITRANS", "Nestrans", "SESTRAN", "SPT", "SWESTRANS", "Tactran"
 )
 
-# Column ranges for each stage (based on ZetTrans analysis)
-# Format: list(start_col, end_col) - end_col includes geometry
-COLUMN_RANGES <- list(
-  adoption_propensity = c(418, 438),
-  charging_network = c(418, 434),
-  trip_purpose = c(15, 25),
-  range_feasibility = c(3, 10),
-  conversion_potential = c(418, 439),
-  integrated_conversion_with_ev_types = c(418, 444),
-  ev_assignment_replaceable_only = c(418, 451)
+STAGE_INPUT_FILES <- list(
+  adoption_propensity = c("adoption_propensity_categorized.gpkg", "adoption_propensity.gpkg"),
+  charging_network = c("enhanced_charging_infrastructure.gpkg", "charging_network.gpkg"),
+  trip_purpose = c("trip_purpose.gpkg"),
+  range_feasibility = c("range_feasibility.gpkg"),
+  conversion_potential = c("conversion_potential.gpkg"),
+  integrated_conversion_with_ev_types = c("integrated_conversion_with_ev_types.gpkg"),
+  ev_assignment_replaceable_only = c("ev_assignment_replaceable_only.gpkg")
+)
+
+STAGE_COLUMNS <- list(
+  adoption_propensity = c(
+    "geo_code",
+    "final_adoption_propensity",
+    "adoption_propensity",
+    "home_charging_feasibility",
+    "parking_availability",
+    "ap_group"
+  ),
+  charging_network = c(
+    "geo_code",
+    "accessibility_score",
+    "charging_accessibility_category",
+    "capacity_factor",
+    "infrastructure_factor",
+    "gap_severity_index",
+    "gap_severity_category",
+    "investment_priority",
+    "investment_priority_score"
+  ),
+  trip_purpose = c(
+    "geo_code1",
+    "geo_code2",
+    "origin_trips",
+    "destination_size",
+    "purpose",
+    "purpose_weight",
+    "distance_km",
+    "weighted_suitability"
+  ),
+  range_feasibility = c(
+    "origin_code",
+    "destination_code",
+    "distance_km",
+    "feasibility_category",
+    "one_way_feasible",
+    "round_trip_feasible",
+    "destination_charging_required"
+  ),
+  conversion_potential = c(
+    "geo_code",
+    "accessibility_score",
+    "public_charging_reliance",
+    "charging_accessibility_category",
+    "charging_bottleneck",
+    "internal_charging_points",
+    "gap_severity_index",
+    "gap_severity_category",
+    "purpose_weight"
+  ),
+  integrated_conversion_with_ev_types = c(
+    "geo_code",
+    "accessibility_score",
+    "public_charging_reliance",
+    "charging_accessibility_category",
+    "charging_bottleneck",
+    "internal_charging_points",
+    "final_adoption_propensity",
+    "gap_severity_category",
+    "purpose_weight",
+    "ev_type_assignment",
+    "assignment_confidence",
+    "final_conversion_potential"
+  ),
+  ev_assignment_replaceable_only = c(
+    "geo_code",
+    "accessibility_score",
+    "charging_accessibility_category",
+    "gap_severity_category",
+    "purpose_weight",
+    "ev_type_assignment",
+    "assignment_confidence",
+    "two_seater_score",
+    "four_seater_score"
+  )
 )
 
 POLYGON_STAGES <- c(
@@ -84,29 +159,47 @@ get_layer_name <- function(gpkg_path) {
   return(layers[1])
 }
 
-convert_polygon_layer <- function(gpkg_path, output_name, stage, columns = NULL) {
+get_stage_input_path <- function(region_dir, stage) {
+  candidates <- STAGE_INPUT_FILES[[stage]]
+  if (is.null(candidates)) {
+    return(NULL)
+  }
+
+  for (candidate in candidates) {
+    gpkg_path <- file.path(region_dir, candidate)
+    if (file.exists(gpkg_path)) {
+      return(gpkg_path)
+    }
+  }
+
+  return(NULL)
+}
+
+select_stage_columns <- function(sf_data, stage) {
+  geom_col <- attr(sf_data, "sf_column")
+  stage_columns <- STAGE_COLUMNS[[stage]]
+
+  if (is.null(stage_columns)) {
+    return(sf_data)
+  }
+
+  cols_to_keep <- unique(c(intersect(stage_columns, names(sf_data)), geom_col))
+
+  if (length(cols_to_keep) <= 1) {
+    warning(sprintf("No configured columns found for %s, keeping all fields", stage))
+    return(sf_data)
+  }
+
+  sf_data[, cols_to_keep]
+}
+
+convert_polygon_layer <- function(gpkg_path, output_name, stage) {
   message(sprintf("Converting polygon: %s", basename(gpkg_path)))
 
   layer_name <- get_layer_name(gpkg_path)
   sf_data <- st_read(gpkg_path, layer = layer_name, quiet = TRUE)
-
-  # Get column range for this stage (if not explicitly provided)
-  if (!is.null(columns)) {
-    # Use explicit column names
-    geom_col <- attr(sf_data, "sf_column")
-    cols_to_keep <- intersect(columns, names(sf_data))
-    sf_data <- sf_data[, c(cols_to_keep, geom_col)]
-    message(sprintf("  Kept %d columns: %s", length(cols_to_keep), paste(cols_to_keep, collapse = ", ")))
-  } else {
-    col_range <- COLUMN_RANGES[[stage]]
-    if (!is.null(col_range)) {
-      n_cols <- ncol(sf_data)
-      start_col <- min(col_range[1], n_cols)
-      end_col <- min(col_range[2], n_cols)
-      sf_data <- sf_data[, start_col:end_col]
-      message(sprintf("  Kept columns %d-%d", start_col, end_col))
-    }
-  }
+  sf_data <- select_stage_columns(sf_data, stage)
+  message(sprintf("  Kept %d columns", ncol(sf_data) - 1))
 
   if (is.na(st_crs(sf_data))) {
     message("  Warning: No CRS defined, assuming EPSG:27700")
@@ -157,17 +250,6 @@ convert_line_layer <- function(gpkg_path, output_name, stage) {
   message(sprintf("  File size: %.2f GB", file_size_gb))
 
   layer_name <- get_layer_name(gpkg_path)
-  sf_data <- st_read(gpkg_path, layer = layer_name, quiet = TRUE)
-
-  # Get column range for this stage
- col_range <- COLUMN_RANGES[[stage]]
-  if (!is.null(col_range)) {
-    n_cols <- ncol(sf_data)
-    start_col <- min(col_range[1], n_cols)
-    end_col <- min(col_range[2], n_cols)
-    sf_data <- sf_data[, start_col:end_col]
-    message(sprintf("  Kept columns %d-%d", start_col, end_col))
-  }
 
   # More aggressive sampling for smaller files
   sample_rate <- 1.0
@@ -184,12 +266,22 @@ convert_line_layer <- function(gpkg_path, output_name, stage) {
   }
 
   if (sample_rate < 1.0) {
-    n_original <- nrow(sf_data)
-    n_sample <- ceiling(n_original * sample_rate)
-    set.seed(42)
-    sf_data <- sf_data[sample(n_original, n_sample), ]
-    message(sprintf("  Sampled: %d -> %d (%.0f%%)", n_original, n_sample, sample_rate * 100))
+    modulus <- max(2, round(1 / sample_rate))
+    stage_columns <- paste(sprintf('"%s"', STAGE_COLUMNS[[stage]]), collapse = ", ")
+    query <- sprintf(
+      'SELECT %s, "geom" FROM "%s" WHERE (ABS(rowid) %% %d) = 0',
+      stage_columns,
+      layer_name,
+      modulus
+    )
+    sf_data <- st_read(gpkg_path, query = query, quiet = TRUE)
+    message(sprintf("  Query-sampled approximately %.1f%% of rows", 100 / modulus))
+  } else {
+    sf_data <- st_read(gpkg_path, layer = layer_name, quiet = TRUE)
   }
+
+  sf_data <- select_stage_columns(sf_data, stage)
+  message(sprintf("  Kept %d columns", ncol(sf_data) - 1))
 
   if (is.na(st_crs(sf_data))) {
     message("  Warning: No CRS defined, assuming EPSG:27700")
@@ -202,7 +294,7 @@ convert_line_layer <- function(gpkg_path, output_name, stage) {
   sf_data <- sf_data[!st_is_empty(sf_data), ]
 
   # More aggressive simplification
-  sf_data <- st_simplify(sf_data, dTolerance = 0.001, preserveTopology = FALSE)
+  sf_data <- st_simplify(sf_data, dTolerance = 0.001, preserveTopology = TRUE)
   sf_data <- st_make_valid(sf_data)
   sf_data <- sf_data[!st_is_empty(sf_data), ]
 
@@ -233,14 +325,14 @@ convert_line_layer <- function(gpkg_path, output_name, stage) {
   }
 }
 
-convert_all <- function() {
+convert_all <- function(regions = REGIONS) {
   message("========================================")
   message("PMTiles Conversion for EV Modelling")
   message("========================================")
   message(sprintf("Output directory: %s", PMTILES_DIR))
   message("")
 
-  for (region in REGIONS) {
+  for (region in regions) {
     message(sprintf("\n=== Processing %s ===", region))
     region_dir <- file.path(OUTPUT_DIR, region)
 
@@ -250,8 +342,9 @@ convert_all <- function() {
     }
 
     for (stage in POLYGON_STAGES) {
-      gpkg_path <- file.path(region_dir, paste0(stage, ".gpkg"))
-      if (file.exists(gpkg_path)) {
+      gpkg_path <- get_stage_input_path(region_dir, stage)
+      if (!is.null(gpkg_path)) {
+        message(sprintf("  Source for %s: %s", stage, basename(gpkg_path)))
         output_name <- sprintf("%s_%s", tolower(region), stage)
         tryCatch(
           convert_polygon_layer(gpkg_path, output_name, stage),
@@ -263,8 +356,9 @@ convert_all <- function() {
     }
 
     for (stage in LINE_STAGES) {
-      gpkg_path <- file.path(region_dir, paste0(stage, ".gpkg"))
-      if (file.exists(gpkg_path)) {
+      gpkg_path <- get_stage_input_path(region_dir, stage)
+      if (!is.null(gpkg_path)) {
+        message(sprintf("  Source for %s: %s", stage, basename(gpkg_path)))
         output_name <- sprintf("%s_%s", tolower(region), stage)
         tryCatch(
           convert_line_layer(gpkg_path, output_name, stage),
@@ -458,9 +552,9 @@ print_summary <- function() {
   }
 
   message("\nNext Steps:")
-  message("1. Upload PMTiles to GitHub Releases")
-  message("2. Update CONFIG.pmtilesBaseUrl in web/js/config.js")
-  message("3. Deploy web/ folder to GitHub Pages")
+  message("1. Commit updated PMTiles and frontend assets in web/")
+  message("2. Push the web/ repo to GitHub Pages")
+  message("3. Hard refresh the deployed site after GitHub Pages finishes publishing")
 }
 
 #' Convert only the new overlay layers (car availability and EV distribution)

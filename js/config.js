@@ -1,9 +1,13 @@
 // Configuration for EV Modelling Web Visualization
 
+function getPmtilesBaseUrl() {
+    return new URL('./pmtiles/', window.location.href).href.replace(/\/$/, '');
+}
+
 const CONFIG = {
-    // PMTiles base URL (using jsDelivr CDN for proper range request support)
-    // Using commit hash to bust CDN cache
-    pmtilesBaseUrl: 'https://cdn.jsdelivr.net/gh/wangzhao0217/zev-up.github.io@2a948f3/pmtiles',
+    // Serve PMTiles from the same origin as the site so the deployed page and
+    // local development both use the exact files committed in this repo.
+    pmtilesBaseUrl: getPmtilesBaseUrl(),
 
     // Available PMTiles files (region_stage combinations that exist)
     availableFiles: [
@@ -176,9 +180,9 @@ const CONFIG = {
             name: 'Integrated Analysis',
             type: 'polygon',
             description: 'Final integrated feasibility',
-            colorProperty: 'integrated_score',
+            colorProperty: 'final_conversion_potential',
             colorScale: 'viridis',
-            legendTitle: 'Integrated Score'
+            legendTitle: 'Final Conversion Potential'
         }
     ],
 

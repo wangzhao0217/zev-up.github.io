@@ -369,13 +369,13 @@ class EVModellingApp {
      */
     getKeyProperties(stage) {
         const propMap = {
-            'adoption_propensity': ['geo_code', 'adoption_propensity_score', 'home_charging_feasibility'],
-            'charging_network': ['geo_code', 'accessibility_score', 'capacity_factor'],
-            'trip_purpose': ['origin_code', 'destination_code', 'purpose', 'distance_km'],
+            'adoption_propensity': ['geo_code', 'final_adoption_propensity', 'home_charging_feasibility', 'ap_group'],
+            'charging_network': ['geo_code', 'accessibility_score', 'capacity_factor', 'charging_accessibility_category'],
+            'trip_purpose': ['geo_code1', 'geo_code2', 'purpose', 'distance_km', 'purpose_weight'],
             'range_feasibility': ['origin_code', 'destination_code', 'feasibility_category', 'distance_km'],
-            'conversion_potential': ['geo_code', 'conversion_potential'],
-            'ev_assignment_replaceable_only': ['geo_code', 'ev_type', 'two_seater_score', 'four_seater_score'],
-            'integrated_conversion_with_ev_types': ['geo_code', 'integrated_score', 'deployment_priority']
+            'conversion_potential': ['geo_code', 'purpose_weight', 'accessibility_score', 'charging_accessibility_category'],
+            'ev_assignment_replaceable_only': ['geo_code', 'ev_type_assignment', 'assignment_confidence', 'two_seater_score', 'four_seater_score'],
+            'integrated_conversion_with_ev_types': ['geo_code', 'final_conversion_potential', 'ev_type_assignment', 'assignment_confidence', 'charging_accessibility_category']
         };
         return propMap[stage] || ['geo_code'];
     }
