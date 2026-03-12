@@ -5,9 +5,7 @@ const LAYERS = {
      * Generate PMTiles source URL
      */
     getSourceUrl(region, stage) {
-        // Map adoption_propensity to use charging_network PMTiles (contains final_adoption_propensity column)
-        const fileStage = stage === 'adoption_propensity' ? 'charging_network' : stage;
-        return `pmtiles://${CONFIG.pmtilesBaseUrl}/${region}_${fileStage}.pmtiles`;
+        return `pmtiles://${CONFIG.pmtilesBaseUrl}/${region}_${stage}.pmtiles`;
     },
 
     /**
@@ -22,9 +20,7 @@ const LAYERS = {
      * Layer name was set to {region}_{stage} during tippecanoe conversion
      */
     getSourceLayer(region, stage) {
-        // Map adoption_propensity to use charging_network source layer
-        const sourceStage = stage === 'adoption_propensity' ? 'charging_network' : stage;
-        return `${region}_${sourceStage}`;
+        return `${region}_${stage}`;
     },
 
     /**
