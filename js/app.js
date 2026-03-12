@@ -373,8 +373,7 @@ class EVModellingApp {
             'charging_network': ['geo_code', 'accessibility_score', 'capacity_factor', 'charging_accessibility_category'],
             'trip_purpose': ['geo_code1', 'geo_code2', 'purpose', 'distance_km', 'purpose_weight'],
             'range_feasibility': ['origin_code', 'destination_code', 'feasibility_category', 'distance_km'],
-            'ev_assignment_replaceable_only': ['geo_code', 'ev_type_assignment', 'assignment_confidence', 'two_seater_score', 'four_seater_score'],
-            'integrated_conversion_with_ev_types': ['geo_code', 'final_conversion_potential', 'ev_type_assignment', 'assignment_confidence', 'charging_accessibility_category']
+            'ev_assignment_replaceable_only': ['geo_code', 'ev_type_assignment', 'assignment_confidence', 'two_seater_score', 'four_seater_score']
         };
         return propMap[stage] || ['geo_code'];
     }

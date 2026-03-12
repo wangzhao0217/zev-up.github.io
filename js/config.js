@@ -18,42 +18,36 @@ const CONFIG = {
         'hitrans_adoption_propensity',
         'hitrans_charging_network',
         'hitrans_ev_assignment_replaceable_only',
-        'hitrans_integrated_conversion_with_ev_types',
         'hitrans_range_feasibility',
         'hitrans_trip_purpose',
         // Nestrans
         'nestrans_adoption_propensity',
         'nestrans_charging_network',
         'nestrans_ev_assignment_replaceable_only',
-        'nestrans_integrated_conversion_with_ev_types',
         'nestrans_range_feasibility',
         'nestrans_trip_purpose',
         // SESTRAN
         'sestran_adoption_propensity',
         'sestran_charging_network',
         'sestran_ev_assignment_replaceable_only',
-        'sestran_integrated_conversion_with_ev_types',
         'sestran_range_feasibility',
         'sestran_trip_purpose',
         // SPT
         'spt_adoption_propensity',
         'spt_charging_network',
         'spt_ev_assignment_replaceable_only',
-        'spt_integrated_conversion_with_ev_types',
         'spt_range_feasibility',
         'spt_trip_purpose',
         // SWESTRANS
         'swestrans_adoption_propensity',
         'swestrans_charging_network',
         'swestrans_ev_assignment_replaceable_only',
-        'swestrans_integrated_conversion_with_ev_types',
         'swestrans_range_feasibility',
         'swestrans_trip_purpose',
         // Tactran
         'tactran_adoption_propensity',
         'tactran_charging_network',
         'tactran_ev_assignment_replaceable_only',
-        'tactran_integrated_conversion_with_ev_types',
         'tactran_range_feasibility',
         'tactran_trip_purpose',
         // ZetTrans
@@ -158,15 +152,6 @@ const CONFIG = {
             colorProperty: 'ev_type_assignment',
             colorScale: 'ev_type',
             legendTitle: 'EV Type Assignment'
-        },
-        {
-            id: 'integrated_conversion_with_ev_types',
-            name: 'Integrated Analysis',
-            type: 'polygon',
-            description: 'Final integrated feasibility',
-            colorProperty: 'final_conversion_potential',
-            colorScale: 'viridis',
-            legendTitle: 'Final Conversion Potential'
         }
     ],
 
