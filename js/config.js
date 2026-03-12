@@ -14,44 +14,37 @@ const CONFIG = {
         'chargers',
         'car_availability',
         'ev_distribution',
-        // HITRANS
-        'hitrans_adoption_propensity',
+        // HITRANS - adoption_propensity uses charging_network files
         'hitrans_charging_network',
         'hitrans_ev_assignment_replaceable_only',
         'hitrans_range_feasibility',
         'hitrans_trip_purpose',
-        // Nestrans
-        'nestrans_adoption_propensity',
+        // Nestrans - adoption_propensity uses charging_network files
         'nestrans_charging_network',
         'nestrans_ev_assignment_replaceable_only',
         'nestrans_range_feasibility',
         'nestrans_trip_purpose',
-        // SESTRAN
-        'sestran_adoption_propensity',
+        // SESTRAN - adoption_propensity uses charging_network files
         'sestran_charging_network',
         'sestran_ev_assignment_replaceable_only',
         'sestran_range_feasibility',
         'sestran_trip_purpose',
-        // SPT
-        'spt_adoption_propensity',
+        // SPT - adoption_propensity uses charging_network files
         'spt_charging_network',
         'spt_ev_assignment_replaceable_only',
         'spt_range_feasibility',
         'spt_trip_purpose',
-        // SWESTRANS
-        'swestrans_adoption_propensity',
+        // SWESTRANS - adoption_propensity uses charging_network files
         'swestrans_charging_network',
         'swestrans_ev_assignment_replaceable_only',
         'swestrans_range_feasibility',
         'swestrans_trip_purpose',
-        // Tactran
-        'tactran_adoption_propensity',
+        // Tactran - adoption_propensity uses charging_network files
         'tactran_charging_network',
         'tactran_ev_assignment_replaceable_only',
         'tactran_range_feasibility',
         'tactran_trip_purpose',
-        // ZetTrans
-        'zettrans_adoption_propensity',
+        // ZetTrans - adoption_propensity uses charging_network files
         'zettrans_charging_network',
         'zettrans_ev_assignment_replaceable_only',
         'zettrans_integrated_conversion_with_ev_types',
