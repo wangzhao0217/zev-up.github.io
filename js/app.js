@@ -280,7 +280,9 @@ class EVModellingApp {
 
         // Add layers for each region (only if file exists)
         regionsToShow.forEach(region => {
-            const fileKey = `${region}_${this.currentStage}`;
+            // Map adoption_propensity to charging_network for file existence check
+            const mappedStage = this.currentStage === 'adoption_propensity' ? 'charging_network' : this.currentStage;
+            const fileKey = `${region}_${mappedStage}`;
             if (CONFIG.availableFiles.includes(fileKey)) {
                 try {
                     const layerId = LAYERS.addLayer(this.map, region, this.currentStage);
