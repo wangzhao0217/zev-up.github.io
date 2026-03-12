@@ -17,7 +17,6 @@ const CONFIG = {
         // HITRANS
         'hitrans_adoption_propensity',
         'hitrans_charging_network',
-        'hitrans_conversion_potential',
         'hitrans_ev_assignment_replaceable_only',
         'hitrans_integrated_conversion_with_ev_types',
         'hitrans_range_feasibility',
@@ -25,7 +24,6 @@ const CONFIG = {
         // Nestrans
         'nestrans_adoption_propensity',
         'nestrans_charging_network',
-        'nestrans_conversion_potential',
         'nestrans_ev_assignment_replaceable_only',
         'nestrans_integrated_conversion_with_ev_types',
         'nestrans_range_feasibility',
@@ -33,7 +31,6 @@ const CONFIG = {
         // SESTRAN
         'sestran_adoption_propensity',
         'sestran_charging_network',
-        'sestran_conversion_potential',
         'sestran_ev_assignment_replaceable_only',
         'sestran_integrated_conversion_with_ev_types',
         'sestran_range_feasibility',
@@ -41,7 +38,6 @@ const CONFIG = {
         // SPT
         'spt_adoption_propensity',
         'spt_charging_network',
-        'spt_conversion_potential',
         'spt_ev_assignment_replaceable_only',
         'spt_integrated_conversion_with_ev_types',
         'spt_range_feasibility',
@@ -49,7 +45,6 @@ const CONFIG = {
         // SWESTRANS
         'swestrans_adoption_propensity',
         'swestrans_charging_network',
-        'swestrans_conversion_potential',
         'swestrans_ev_assignment_replaceable_only',
         'swestrans_integrated_conversion_with_ev_types',
         'swestrans_range_feasibility',
@@ -57,7 +52,6 @@ const CONFIG = {
         // Tactran
         'tactran_adoption_propensity',
         'tactran_charging_network',
-        'tactran_conversion_potential',
         'tactran_ev_assignment_replaceable_only',
         'tactran_integrated_conversion_with_ev_types',
         'tactran_range_feasibility',
@@ -65,7 +59,6 @@ const CONFIG = {
         // ZetTrans
         'zettrans_adoption_propensity',
         'zettrans_charging_network',
-        'zettrans_conversion_potential',
         'zettrans_ev_assignment_replaceable_only',
         'zettrans_integrated_conversion_with_ev_types',
         'zettrans_range_feasibility',
@@ -135,18 +128,18 @@ const CONFIG = {
             name: 'Charging Network',
             type: 'polygon',
             description: 'Charging infrastructure accessibility',
-            colorProperty: 'charging_accessibility_category',
-            colorScale: 'charging_category',
+            colorProperty: 'accessibility_score',
+            colorScale: 'viridis',
             legendTitle: 'Charging Accessibility'
         },
         {
             id: 'trip_purpose',
             name: 'Trip Purpose',
-            type: 'line',
+            type: 'polygon',
             description: 'Trip purpose suitability analysis',
-            colorProperty: 'purpose',
-            colorScale: 'categorical',
-            legendTitle: 'Trip Purpose'
+            colorProperty: 'weighted_suitability',
+            colorScale: 'trip_suitability',
+            legendTitle: 'Trip Suitability'
         },
         {
             id: 'range_feasibility',
@@ -156,15 +149,6 @@ const CONFIG = {
             colorProperty: 'feasibility_category',
             colorScale: 'feasibility',
             legendTitle: 'Feasibility'
-        },
-        {
-            id: 'conversion_potential',
-            name: 'Conversion Potential',
-            type: 'polygon',
-            description: 'Trip conversion potential',
-            colorProperty: 'purpose_weight',
-            colorScale: 'viridis',
-            legendTitle: 'Purpose Weight'
         },
         {
             id: 'ev_assignment_replaceable_only',
@@ -190,9 +174,10 @@ const CONFIG = {
     colorScales: {
         viridis: [
             [0.0, '#440154'],
-            [0.25, '#3b528b'],
-            [0.5, '#21918c'],
-            [0.75, '#5ec962'],
+            [0.2, '#3b528b'],
+            [0.4, '#21918c'],
+            [0.6, '#5ec962'],
+            [0.8, '#c2df23'],
             [1.0, '#fde725']
         ],
         plasma: [
@@ -208,6 +193,12 @@ const CONFIG = {
             [1500, '#6baed6'],
             [3000, '#2171b5'],
             [7000, '#08306b']
+        ],
+        trip_suitability: [
+            [0.0, '#e74c3c'],
+            [0.5, '#f39c12'],
+            [0.8, '#2ecc71'],
+            [1.0, '#27ae60']
         ],
         feasibility: {
             'feasible': '#2ecc71',
