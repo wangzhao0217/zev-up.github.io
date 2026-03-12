@@ -80,8 +80,8 @@ const CONFIG = {
     map: {
         center: [-4.0, 56.5],  // Scotland center
         zoom: 7,
-        minZoom: 5,
-        maxZoom: 14,
+        minZoom: 4,
+        maxZoom: 18,
         bounds: [
             [-8.0, 54.5],  // Southwest
             [0.0, 61.0]    // Northeast
