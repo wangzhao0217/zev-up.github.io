@@ -79,7 +79,7 @@ const CONFIG = {
     // Map settings
     map: {
         center: [-4.0, 56.5],  // Scotland center
-        zoom: 6,
+        zoom: 7,
         minZoom: 5,
         maxZoom: 14,
         bounds: [
